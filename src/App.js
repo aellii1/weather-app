@@ -21,6 +21,7 @@ export default function App() {
   const [weather, setWeather] = useState(null);
   const [status, setStatus] = useState("idle"); 
   const [error, setError] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   async function handleSearch(cityName) {
     setStatus("loading");
@@ -38,8 +39,11 @@ export default function App() {
   }
 
   return (
-    <div className="shell">
-      <Header />
+    <div className={sidebarOpen ? "shell" : "shell shell--collapsed"}>
+      <Header
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen((open) => !open)}
+      />
       <Sidebar page={page} onNavigate={setPage} />
 
       <main className="content">
