@@ -1,13 +1,27 @@
 import { describeWeather } from "../WeatherCodes";
 
-export default function CurrentWeather({ location, weather }) {
+export default function CurrentWeather({ location, weather, onSave, isSaved }) {
   const [label, icon] = describeWeather(weather.weather_code);
 
   return (
     <section className="current" aria-live="polite">
-      <p className="place">
-        {location.city}, {location.country}
-      </p>
+      <div className="current-header">
+        <p className="place">
+          {(location.name || location.city)}, {location.country}
+        </p>
+
+        {onSave && (
+          <button
+            type="button"
+            className={`save-btn ${isSaved ? "save-btn--saved" : ""}`}
+            onClick={onSave}
+            disabled={isSaved}
+          >
+            {isSaved ? "★ Saved" : "☆ Save City"}
+          </button>
+        )}
+      </div>
+
       <div className="headline">
         <span className="icon" aria-hidden="true">{icon}</span>
         <span className="temp">{Math.round(weather.temperature_2m)}°</span>
